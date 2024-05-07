@@ -35,21 +35,25 @@ public class ReimbursementController {
 
 
     @PostMapping("/add")
-    public ResponseEntity<?> addReimbursement(@RequestBody Reimbursement reimbursement, HttpSession session){
+    public ResponseEntity<String> addReimbursement(@RequestBody IncomingReimbursementDTO reimbursementDTO, HttpSession session){
+
+        //If the user is not logged in (if the userId is null), send back a 401
         if(session.getAttribute("userId") == null){
-            return ResponseEntity.status(401).body("You must login to post reimbursement!");
+            return ResponseEntity.status(401).body("You must be logged in to submit reimbursements!");
         }
-        int userId = (int)session.getAttribute("userId");
-        try{
-            reimbursement.setStatus("pending");
-            Reimbursement reimb = reimbursementService.addReimbursement(reimbursement, userId);
-            return ResponseEntity.status(201).body(reimb);
 
-        }catch(RuntimeException e){
-            return ResponseEntity.status(404).body(e.getMessage());
-        }
+        //Now that we have user info saved (in our HTTP Session), we can attach the stored user Id to the pokeDTO
+        reimbursementDTO.setUserId((int) session.getAttribute("userId"));
+
+        //why do we need to cast to an int? getAttribute returns an Object
+
+        //TODO: try/catch once we decide to do some error handling
+       Reimbursement p = reimbursementService.addReimbursement(reimbursementDTO);
+
+        return ResponseEntity.status(201).body(
+                p.getUser().getUsername() + " submitted " + p.getUser().getUserId());
+
     }
-
 
     @GetMapping
     public ResponseEntity<?> getAllReimbursement(int userId, HttpSession session){

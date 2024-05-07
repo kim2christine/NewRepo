@@ -9,6 +9,7 @@ import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.OutgoingReimbursementDTO;
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.Reimbursement;
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.User;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,7 @@ public class ReimbursementService {
     }
 
 
-    public Reimbursement addReimbursement1(IncomingReimbursementDTO reimbursementDTO){
+    public Reimbursement addReimbursement(IncomingReimbursementDTO reimbursementDTO) {
         //we need to get the User by id, and set it with the setter
         Reimbursement p = new Reimbursement(reimbursementDTO.getDescription(), reimbursementDTO.getAmount());
 
@@ -41,17 +42,15 @@ public class ReimbursementService {
         return reimbursementDAO.save(p);
     }
 
-}
+
+    public List<OutgoingReimbursementDTO> getAllReimbursement(int userId) {
 
 
-    public List<OutgoingReimbursementDTO> getAllReimbursement(int userId){
-
-
-        List<Reimbursement> allReimbursement = ReimbursementDAO.findByUserUserId(userId);
+        List<Reimbursement> allReimbursement = reimbursementDAO.findByUserUserId(userId);
 
         List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
 
-        for(Reimbursement p : allReimbursement){
+        for (Reimbursement p : allReimbursement) {
             OutgoingReimbursementDTO outP = new OutgoingReimbursementDTO(
                     p.getFormId(),
                     p.getDescription(),
@@ -67,25 +66,18 @@ public class ReimbursementService {
 
     }
 
-    //delete pokemon by ID
-    public String releaseReimbursement(int formId, int userId){
+    //delete reimbursement by ID
+    public String releaseReimbursement(int formId, int userId) {
 
-        //Make sure the Pokemon exists with an optional
-        //we'll also use this Pokemon object in the delete and the return
-        Optional<Reimbursement> optionalReimbursement= reimbursementDAO.findById(formId);
+        Optional<Reimbursement> optionalReimbursement = reimbursementDAO.findById(formId);
 
-        if(optionalReimbursement.isEmpty()){
+        if (optionalReimbursement.isEmpty()) {
             throw new NoSuchElementException("Reimbursement not found! Can't delete");
         }
 
-        //if the pokemon is present:
-        //extract the pokemon from the optional
-        //make sure the pokemon being deleted belongs to the user deleting it
-        //delete the pokemon from the User's List of pokemon
-        //perform the actual delete
-       Reimbursement reimbursement = optionalReimbursement.get();
+        Reimbursement reimbursement = optionalReimbursement.get();
 
-        if(reimbursement.getUser().getUserId() != userId){
+        if (reimbursement.getUser().getUserId() != userId) {
             throw new IllegalArgumentException("You can only delete your own reimbursement!");
         }
 
@@ -97,24 +89,22 @@ public class ReimbursementService {
     }
 
 
-
-
-    public List<Reimbursement> getAllReimbursementByManager(String status){
+    public List<Reimbursement> getAllReimbursementByManager(String status) {
         List<Reimbursement> allReimbs = reimbursementDAO.findAll();
         List<Reimbursement> reimbRes = new ArrayList<>();
-        if(!"all".equalsIgnoreCase(status)){
+        if (!"all".equalsIgnoreCase(status)) {
             reimbRes = allReimbs.stream()
                     .filter(reim -> reim.getStatus().equalsIgnoreCase(status))
                     .toList();
-        }else{
+        } else {
             reimbRes = allReimbs;
         }
         return reimbRes;
     }
 
-    public Reimbursement resolveReimbursement(int formId, String status){
+    public Reimbursement resolveReimbursement(int formId, String status) {
         Optional<Reimbursement> optionalReimbursement = reimbursementDAO.findById(formId);
-        if(optionalReimbursement.isEmpty()){
+        if (optionalReimbursement.isEmpty()) {
             throw new RuntimeException("optionalReimbursement Not Found!");
         }
         Reimbursement reimbursement = optionalReimbursement.get();
@@ -123,14 +113,9 @@ public class ReimbursementService {
     }
 
 
-
-
-
-
-
-    public Reimbursement updateStatus(int formId, Reimbursement reimbursement){
+    public Reimbursement updateStatus(int formId, Reimbursement reimbursement) {
         Optional<Reimbursement> optionalReimbursement = reimbursementDAO.findById(formId);
-        if(optionalReimbursement.isEmpty()){
+        if (optionalReimbursement.isEmpty()) {
             throw new RuntimeException("optionalReimbursement Not Found!");
         }
 
@@ -140,4 +125,4 @@ public class ReimbursementService {
         return reimbursementDAO.save(reimbursement);
     }
 
-
+}
