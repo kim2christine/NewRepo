@@ -81,7 +81,7 @@ public class ReimbursementService {
             throw new IllegalArgumentException("You can only delete your own reimbursement!");
         }
 
-        //The pokemon won't fully delete until you remove it from BOTH tables!
+
         reimbursement.getUser().getReimbursement().remove(reimbursement);
         reimbursementDAO.deleteById(formId);
 

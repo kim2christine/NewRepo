@@ -56,7 +56,7 @@ public class ReimbursementController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllReimbursement(int userId, HttpSession session){
+    public ResponseEntity<?> getAllReimbursement(HttpSession session){
 
         //Login check
         if(session.getAttribute("userId") == null){
@@ -71,7 +71,7 @@ public class ReimbursementController {
 
     }
 
-    @DeleteMapping("/formId}")
+    @DeleteMapping("/{formId}")
     public ResponseEntity<String> releaseReimbursement(@PathVariable int formId, HttpSession session){
 
         //Login check
