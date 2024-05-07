@@ -1,8 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
 export function Employee() {
+  const getAllUser = async () => {
+    //our GET request (remember to send withCredentials to confirm the user is logged in)
+    const response = await axios.get(
+      "http://localhost:8080/reimbursement/allEmployees",
+      {
+        withCredentials: true,
+      }
+    );
+
+    //populate the reimbursement state
+    setUser(response.data);
+
+    console.log(response.data);
+  };
+
   const navigate = useNavigate();
 
   const handleLogout = async () => {

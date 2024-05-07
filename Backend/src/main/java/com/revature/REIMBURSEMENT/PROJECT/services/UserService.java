@@ -84,7 +84,7 @@ public class UserService {
     public List<OutgoingUserDTO> getAllEmployees() {
 
 
-        List<User> allUser = UserDAO.findAll();
+        List<User> allUser = userDAO.findAll();
 
         List<OutgoingUserDTO> outUser = new ArrayList<>();
 

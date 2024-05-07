@@ -81,7 +81,7 @@ public class UserController {
         int userId = (int) session.getAttribute("userId");
 
         //Why return in many line when one line do trick?
-        return ResponseEntity.ok(UserService.getAllEmployees());
+        return ResponseEntity.ok(userService.getAllEmployees());
 
     }
 
