@@ -122,17 +122,17 @@ public class UserController {
 
     }
 
-
-    @GetMapping
-    public ResponseEntity<?> getAllUsers(HttpSession session){
-        if(session.getAttribute("userId") == null){
-            return ResponseEntity.status(401).body("You must login in to see users");
-        }
-        if(!"manager".equalsIgnoreCase((String)session.getAttribute("role"))){
-            return ResponseEntity.status(401).body("Only managers are allowed to see users");
-        }
-        return ResponseEntity.ok(userService.allUsers());
-    }
+//
+//    @GetMapping
+//    public ResponseEntity<?> getAllUsers(HttpSession session){
+//        if(session.getAttribute("userId") == null){
+//            return ResponseEntity.status(401).body("You must login in to see users");
+//        }
+//        if(!"manager".equalsIgnoreCase((String)session.getAttribute("role"))){
+//            return ResponseEntity.status(401).body("Only managers are allowed to see users");
+//        }
+//        return ResponseEntity.ok(userService.getAllUsers());
+//    }
 
 
 }

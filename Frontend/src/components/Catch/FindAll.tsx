@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { UserInterface } from "../Interfaces/UserInterface";
 
 export function Employee() {
+  const [users, setUsers] = useState<UserInterface[]>([]);
+
   const getAllUser = async () => {
     //our GET request (remember to send withCredentials to confirm the user is logged in)
     const response = await axios.get(
@@ -12,7 +16,7 @@ export function Employee() {
     );
 
     //populate the reimbursement state
-    setUser(response.data);
+    setUsers(response.data);
 
     console.log(response.data);
   };
@@ -31,6 +35,15 @@ export function Employee() {
       <h1>All Employees</h1>
       <div>
         <p>Here are our registered employees!</p>
+
+        {users.map((user, index) => (
+          <div>
+            <div>
+              <h1>{user.username}</h1>
+              <h1>{user.userId}</h1>
+            </div>
+          </div>
+        ))}
 
         <div>
           <button className="login-button" onClick={() => navigate("/manager")}>
