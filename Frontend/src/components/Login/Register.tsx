@@ -41,7 +41,7 @@ export const Register: React.FC = () => {
     alert(response.data); //"{user} was created!"
 
     //after registration, send the user back to login page
-    navigate("/reimbursement");
+    navigate("/login");
   };
 
   //"{user} was created!"

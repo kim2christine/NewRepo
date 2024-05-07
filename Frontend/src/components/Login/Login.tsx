@@ -55,13 +55,11 @@ export const Login: React.FC = () => {
         //if they click employee button i want it to take them to localhost:8080/users/employee
         //if they click manager button i want it to take them to localhost:8080/useres/manager
 
-        // if (state.userSessionData.role === "Manager") {
-        //   navigate("/manager");
-        // } else {
-        //   navigate("/reimbursement/add");
-        // }
-
-        navigate("/reimbursement/add");
+        if (state.userSessionData.role === "Manager") {
+          navigate("/manager");
+        } else {
+          navigate("/employee");
+        }
       })
       .catch((error) => {
         alert("Login Failed!");

@@ -10,6 +10,8 @@ import { Catch } from "./components/Catch/Catch";
 import { Register } from "./components/Login/Register";
 import { Collection } from "./components/Collection/Collection";
 import { AddReimbursement } from "./components/Login/AddReimbursement";
+import { Manager } from "./components/Login/Manager";
+import { Employee } from "./components/Login/Employee";
 //import all of the other components here!!!!!!!!
 //still have to make other components for reimbursement retrieval/status changes
 
@@ -24,6 +26,8 @@ function App() {
           <Route path="/reimbursement/view" element={<Catch />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/reimbursement" element={<Collection />} />
+          <Route path="/manager" element={<Manager />} />
+          <Route path="/employee" element={<Employee />} />
         </Routes>
       </BrowserRouter>
     </div>
