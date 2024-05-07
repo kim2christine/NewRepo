@@ -20,10 +20,10 @@ export const Collection: React.FC = () => {
     getAllReimbursement();
   }, []); //empty array so this triggers on component load and state change
 
-  //I want to get all pokemon when the component renders, so we'll use useEffect
-  useEffect(() => {
-    getAllReimbursement();
-  }, []); //empty array so this triggers on component load and state change
+  // //I want to get all pokemon when the component renders, so we'll use useEffect
+  // useEffect(() => {
+  //   getAllReimbursement();
+  // }, []); //empty array so this triggers on component load and state change
 
   //GET request to server to get all pokemon
   const getAllReimbursement = async () => {
@@ -42,7 +42,7 @@ export const Collection: React.FC = () => {
   };
 
   //Delete reimbursement by id
-  const deleteReimbursement = async (formId: number | undefined) => {
+  const deleteReimbursement = async (formId: any) => {
     //TODO: throw some error if formId is typeof undefined
 
     const response = await axios
@@ -60,6 +60,30 @@ export const Collection: React.FC = () => {
     <div className="collection-container">
       {/* using map(), for every reimbursement that belongs to the logged in user... 
             Display one Reimbursement component, and a button to delete it*/}
+      <table className="table">
+        <thead>
+          <tr>
+            <th>FormId</th>
+            <th>Amount</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reimbursement.map((reim) => {
+            return (
+              <tr key={reim.formId}>
+                <td>{reim.formId}</td>
+                <td>{reim.amount}</td>
+                <td>{reim.description}</td>
+                <td>{reim.status}</td>
+                <td><button onClick={() => deleteReimbursement(reim.formId)}>Delete</button></td>
+              </tr>
+            );
+          })}
+        </tbody>
+        </table>       
       {reimbursement.map((reim, index) => (
         <div>
           {/* <Reimbursement {...reim}></Reimbursement> */}
@@ -70,7 +94,7 @@ export const Collection: React.FC = () => {
             Delete
           </button>
         </div>
-      ))}
+      ))} 
 
       {/* If you need to render multiple things in map(), they need to be in a <div> */}
     </div>
