@@ -12,6 +12,7 @@ import { Collection } from "./components/Collection/Collection";
 import { AddReimbursement } from "./components/Login/AddReimbursement";
 import { Manager } from "./components/Login/Manager";
 import { Employee } from "./components/Login/Employee";
+import { FindAll } from "./components/Catch/FindAll";
 //import all of the other components here!!!!!!!!
 //still have to make other components for reimbursement retrieval/status changes
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/reimbursement" element={<Collection />} />
           <Route path="/manager" element={<Manager />} />
           <Route path="/employee" element={<Employee />} />
+          <Route path="/FindAll" element={<FindAll />} />
         </Routes>
       </BrowserRouter>
     </div>

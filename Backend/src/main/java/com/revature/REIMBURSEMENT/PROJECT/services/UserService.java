@@ -4,10 +4,12 @@ package com.revature.REIMBURSEMENT.PROJECT.services;
 import com.revature.REIMBURSEMENT.PROJECT.DAOS.UserDAO;
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.IncomingUserDTO;
 
+import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.OutgoingUserDTO;
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,7 +81,22 @@ public class UserService {
 
     }
 
-    public List<User> allUsers(){
-        return userDAO.findAll();
+    public List<OutgoingUserDTO> getAllEmployees() {
+
+
+        List<User> allUser = UserDAO.findAll();
+
+        List<OutgoingUserDTO> outUser = new ArrayList<>();
+
+        for (User p : allUser) {
+            OutgoingUserDTO outP = new OutgoingUserDTO(
+                    p.getUserId(),
+                    p.getUsername(),
+                    p.getRole()
+            );
+
+            outUser.add(outP);
+        }
+        return outUser;
     }
 }

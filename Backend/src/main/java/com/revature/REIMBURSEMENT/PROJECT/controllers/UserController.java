@@ -69,6 +69,25 @@ public class UserController {
     }
 
 
+    @GetMapping("/allEmployees")
+    public ResponseEntity<?> getAllEmployees(HttpSession session){
+
+        //Login check
+        if(session.getAttribute("userId") == null && session.getAttribute("role") != "Manager"){
+            return ResponseEntity.status(401).body("You must be logged in to see your Employees!");
+        }
+
+        //Get the userId from the session
+        int userId = (int) session.getAttribute("userId");
+
+        //Why return in many line when one line do trick?
+        return ResponseEntity.ok(UserService.getAllEmployees());
+
+    }
+
+
+
+
 
 @PostMapping("/logout")
     public ResponseEntity<String> logoutUser(HttpSession session){

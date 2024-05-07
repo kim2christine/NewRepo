@@ -4,10 +4,7 @@ package com.revature.REIMBURSEMENT.PROJECT.services;
 
 import com.revature.REIMBURSEMENT.PROJECT.DAOS.ReimbursementDAO;
 import com.revature.REIMBURSEMENT.PROJECT.DAOS.UserDAO;
-import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.IncomingReimbursementDTO;
-import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.OutgoingReimbursementDTO;
-import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.Reimbursement;
-import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.User;
+import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.*;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,11 +87,6 @@ public class ReimbursementService {
     }
 
 
-
-
-
-
-
     //delete reimbursement by ID
     public String releaseReimbursement(int formId, int userId) {
 
@@ -153,5 +145,7 @@ public class ReimbursementService {
         resolved.setStatus(reimbursement.getStatus());
         return reimbursementDAO.save(reimbursement);
     }
+
+
 
 }
