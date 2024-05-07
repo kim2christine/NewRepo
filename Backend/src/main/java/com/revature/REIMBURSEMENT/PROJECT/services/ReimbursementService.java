@@ -97,8 +97,17 @@ public class ReimbursementService {
         }
 
         Reimbursement reimbursement = optionalReimbursement.get();
-
+        Optional<User> optionalUser = userDAO.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new NoSuchElementException("User not found! Can't delete");
+        }
+        User user = optionalUser.get();
         if (reimbursement.getUser().getUserId() != userId) {
+            if (user.getRole().equalsIgnoreCase("Manager")) {
+                reimbursement.getUser().getReimbursement().remove(reimbursement);
+                reimbursementDAO.deleteById(formId);
+                return reimbursement.getFormId() + " was resolved!";
+            }
             throw new IllegalArgumentException("You can only delete your own reimbursement!");
         }
 
