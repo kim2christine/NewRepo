@@ -30,7 +30,7 @@ export const Catch: React.FC = () => {
   const getReimbursement = async () => {
     //sending our request to reimbursementAPI using the userInput as the reimbursement id to search for
     const response = await axios.get(
-      "http://localhost:8080/reimbursement/add " + userInput
+      "http://localhost:8080/reimbursement/getAll " + userInput
     );
 
     //let's set our reimbursement state with the incoming data

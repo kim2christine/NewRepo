@@ -44,7 +44,7 @@ export const AddReimbursement: React.FC = () => {
       { withCredentials: true }
     );
     console.log(response);
-    navigate("/reimbursement/view");
+    navigate("/employee");
   };
 
   return (
@@ -74,7 +74,7 @@ export const AddReimbursement: React.FC = () => {
         </button>
         <button
           className="add-reimbursement"
-          onClick={() => navigate("/homepage")}
+          onClick={() => navigate("/employee")}
         >
           Back
         </button>

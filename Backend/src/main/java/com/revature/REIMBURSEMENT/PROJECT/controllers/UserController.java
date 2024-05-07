@@ -70,7 +70,17 @@ public class UserController {
 
 
 
+@PostMapping("/logout")
+    public ResponseEntity<String> logoutUser(HttpSession session){
+        //If the user is not logged in, send back a 401
+        if(session.getAttribute("userId") == null){
+            return ResponseEntity.status(401).body("You must be logged in to log out!");
+        }
 
+        //If the user is logged in, log them out
+        session.invalidate();
+        return ResponseEntity.ok("You have been logged out!");
+    }
 
 
 

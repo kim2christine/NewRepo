@@ -46,6 +46,29 @@ public class ReimbursementService {
     public List<OutgoingReimbursementDTO> getAllReimbursement(int userId) {
 
 
+        List<Reimbursement> allReimbursement = reimbursementDAO.findAll();
+
+        List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
+
+        for (Reimbursement p : allReimbursement) {
+            OutgoingReimbursementDTO outP = new OutgoingReimbursementDTO(
+                    p.getFormId(),
+                    p.getDescription(),
+                    p.getAmount(),
+                    p.getUser().getUserId(),
+                    p.getStatus()
+            );
+
+            outReimbursement.add(outP);
+        }
+
+        return outReimbursement;
+
+    }
+
+    public List<OutgoingReimbursementDTO> getAllReimbursementEmployee(int userId) {
+
+
         List<Reimbursement> allReimbursement = reimbursementDAO.findByUserUserId(userId);
 
         List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
@@ -65,6 +88,12 @@ public class ReimbursementService {
         return outReimbursement;
 
     }
+
+
+
+
+
+
 
     //delete reimbursement by ID
     public String releaseReimbursement(int formId, int userId) {

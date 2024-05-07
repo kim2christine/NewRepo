@@ -28,9 +28,12 @@ export const Collection: React.FC = () => {
   //GET request to server to get all pokemon
   const getAllReimbursement = async () => {
     //our GET request (remember to send withCredentials to confirm the user is logged in)
-    const response = await axios.get("http://localhost:8080/reimbursement", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      "http://localhost:8080/reimbursement/all",
+      {
+        withCredentials: true,
+      }
+    );
 
     //populate the reimbursement state
     setReimbursement(response.data);

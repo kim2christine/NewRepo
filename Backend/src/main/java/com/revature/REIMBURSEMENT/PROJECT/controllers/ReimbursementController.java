@@ -55,7 +55,7 @@ public class ReimbursementController {
 
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<?> getAllReimbursement(HttpSession session){
 
         //Login check
@@ -68,6 +68,22 @@ public class ReimbursementController {
 
         //Why return in many line when one line do trick?
         return ResponseEntity.ok(reimbursementService.getAllReimbursement(userId));
+
+    }
+
+    @GetMapping("/allById/{userId}")
+    public ResponseEntity<?> getAllReimbursementEmployee(HttpSession session){
+
+        //Login check
+        if(session.getAttribute("userId") == null){
+            return ResponseEntity.status(401).body("You must be logged in to see your Reimbursements!");
+        }
+
+        //Get the userId from the session
+        int userId = (int) session.getAttribute("userId");
+
+        //Why return in many line when one line do trick?
+        return ResponseEntity.ok(reimbursementService.getAllReimbursementEmployee(userId));
 
     }
 
