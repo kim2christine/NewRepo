@@ -13,6 +13,8 @@ export const AddReimbursement: React.FC = () => {
     status: "",
   });
 
+  const [message, setMessage] = useState("");
+
   //useNavigate to navigate between components
   const navigate = useNavigate();
 
@@ -38,13 +40,18 @@ export const AddReimbursement: React.FC = () => {
   //! Remember, requests to our Java server will only work with @CrossOrigin in our Controllers
   const add = async () => {
     //this will go to the backend
-    const response = await axios.post(
-      "http://localhost:8080/reimbursement/add",
-      reimbursement,
-      { withCredentials: true }
-    );
-    console.log(response);
-    navigate("/employee");
+    const response = await axios
+      .post("http://localhost:8080/reimbursement/add", reimbursement, {
+        withCredentials: true,
+      })
+      .then((response) => {
+        setMessage("Request was successful");
+      })
+      .catch((error) => {
+        setMessage("Request was unsuccessful");
+      });
+
+    // navigate("/employee");
   };
 
   return (
@@ -78,6 +85,7 @@ export const AddReimbursement: React.FC = () => {
         >
           Back
         </button>
+        {message && <p>{message}</p>}
       </div>
     </div>
   );

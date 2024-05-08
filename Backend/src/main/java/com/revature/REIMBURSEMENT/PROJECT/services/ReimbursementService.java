@@ -41,9 +41,17 @@ public class ReimbursementService {
 
 
     public List<OutgoingReimbursementDTO> getAllReimbursement(int userId) {
-
+        User u = userDAO.findById(userId).get();
 
         List<Reimbursement> allReimbursement = reimbursementDAO.findAll();
+
+        if(u.getRole().equalsIgnoreCase("Employee")){
+            allReimbursement = allReimbursement.stream()
+                    .filter(reim -> reim.getUser().getUserId() == userId)
+                    .collect(Collectors.toList());
+                  
+        }
+
 
         List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
 

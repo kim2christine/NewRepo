@@ -2,6 +2,7 @@ import axios from "axios";
 import { ReimbursementInterface } from "../Interfaces/ReimbursementInterface";
 import { Reimbursement } from "./Reimbursement";
 import { useEffect, useState } from "react";
+import { navigate } from "react-router";
 
 const ReimbursementList: React.FC = () => {
   const [listItems, setListItems] = useState<ReimbursementInterface[]>([]);
@@ -13,7 +14,7 @@ const ReimbursementList: React.FC = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8080/reimbursement?filter=${filter ?? "all"}`, {
+      .get(`http://localhost:8080/reimbursement/all`, {
         withCredentials: true,
       })
 
@@ -29,6 +30,9 @@ const ReimbursementList: React.FC = () => {
     <>
       <div>
         <h1>Welcome Manager</h1>
+        <button className="login-button" onClick={() => navigate("/manager")}>
+          Back
+        </button>
       </div>
       <div>
         <select value={filter} onChange={onFilterChange}>
