@@ -31,7 +31,7 @@ public class ReimbursementService {
 
     public Reimbursement addReimbursement(IncomingReimbursementDTO reimbursementDTO) {
         //we need to get the User by id, and set it with the setter
-        Reimbursement p = new Reimbursement(reimbursementDTO.getDescription(), reimbursementDTO.getAmount());
+        Reimbursement p = new Reimbursement(reimbursementDTO.getDescription(), reimbursementDTO.getAmount(), reimbursementDTO.getStatus());
 
         //Instantiate the appropriate user
         User u = userDAO.findById(reimbursementDTO.getUserId()).get();
@@ -40,7 +40,7 @@ public class ReimbursementService {
     }
 
 
-    public List<OutgoingReimbursementDTO> getAllReimbursement(int userId) {
+    public List<Reimbursement> getAllReimbursement(int userId) {
         Optional<User> optUser = userDAO.findById(userId);
         if (optUser.isEmpty()) {
             throw new NoSuchElementException("User not found!");
@@ -58,18 +58,23 @@ public class ReimbursementService {
         List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
 
         for (Reimbursement p : allReimbursement) {
+            Optional<User> u1 = userDAO.findById(p.getUserId());
+            if (u1.isEmpty()) {
+                throw new NoSuchElementException("User not found!");
+            }
+            User user = u1.get();
             OutgoingReimbursementDTO outP = new OutgoingReimbursementDTO(
                     p.getFormId(),
                     p.getDescription(),
                     p.getAmount(),
-                    p.getUserId(),
+                    user.getUsername(),
                     p.getStatus()
             );
 
             outReimbursement.add(outP);
         }
 
-        return outReimbursement;
+        return allReimbursement;
 
     }
 
@@ -81,11 +86,16 @@ public class ReimbursementService {
         List<OutgoingReimbursementDTO> outReimbursement = new ArrayList<>();
 
         for (Reimbursement p : allReimbursement) {
+            Optional<User> u = userDAO.findById(p.getUserId());
+            if (u.isEmpty()) {
+                throw new NoSuchElementException("User not found!");
+            }
+            User user = u.get();
             OutgoingReimbursementDTO outP = new OutgoingReimbursementDTO(
                     p.getFormId(),
                     p.getDescription(),
                     p.getAmount(),
-                    p.getUserId(),
+                    user.getUsername(),
                     p.getStatus()
             );
 
@@ -130,15 +140,29 @@ public class ReimbursementService {
     }
 
 
-    public List<Reimbursement> getAllReimbursementByManager(String status) {
-        List<Reimbursement> allReimbs = reimbursementDAO.findAll();
-        List<Reimbursement> reimbRes = new ArrayList<>();
-        if (!"all".equalsIgnoreCase(status)) {
-            reimbRes = allReimbs.stream()
-                    .filter(reim -> reim.getStatus().equalsIgnoreCase(status))
-                    .toList();
+    public List<OutgoingReimbursementDTO> getAllReimbursementByManager(String status) {
+        System.out.println(status);
+        List<Reimbursement> allReimbs;
+        if (status.equalsIgnoreCase("all")) {
+            allReimbs = reimbursementDAO.findAll();
         } else {
-            reimbRes = allReimbs;
+            allReimbs = reimbursementDAO.findAllByStatus(status);
+        }
+        List<OutgoingReimbursementDTO> reimbRes = new ArrayList<>();
+        for (Reimbursement r : allReimbs) {
+            Optional<User> u = userDAO.findById(r.getUserId());
+            if (u.isEmpty()) {
+                throw new NoSuchElementException("User not found!");
+            }
+            User user = u.get();
+            OutgoingReimbursementDTO outReimb = new OutgoingReimbursementDTO(
+                    r.getFormId(),
+                    r.getDescription(),
+                    r.getAmount(),
+                    user.getUsername(),
+                    r.getStatus()
+            );
+            reimbRes.add(outReimb);
         }
         return reimbRes;
     }
@@ -154,7 +178,7 @@ public class ReimbursementService {
     }
 
 
-    public Reimbursement updateStatus(int formId, Reimbursement reimbursement) {
+    public Reimbursement updateStatus(int formId, String status) {
         Optional<Reimbursement> optionalReimbursement = reimbursementDAO.findById(formId);
         if (optionalReimbursement.isEmpty()) {
             throw new RuntimeException("optionalReimbursement Not Found!");
@@ -162,8 +186,8 @@ public class ReimbursementService {
 
         Reimbursement resolved = optionalReimbursement.get();
 
-        resolved.setStatus(reimbursement.getStatus());
-        return reimbursementDAO.save(reimbursement);
+        resolved.setStatus(status);
+        return reimbursementDAO.save(resolved);
     }
 
 

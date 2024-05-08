@@ -26,7 +26,7 @@ function App() {
           <Route path="" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/reimbursement/add" element={<AddReimbursement />} />
-          <Route path="/reimbursement/view" element={<Catch />} />
+          <Route path="/reimbursement/view" element={<Collection />} />
           <Route path="/homepage" element={<Homepage />} />
           <Route path="/allreims" element={<List />} />
           <Route path="/manager" element={<Manager />} />

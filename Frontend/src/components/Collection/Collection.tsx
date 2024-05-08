@@ -60,8 +60,12 @@ export const Collection: React.FC = () => {
     <div className="collection-container">
       {/* using map(), for every reimbursement that belongs to the logged in user... 
             Display one Reimbursement component, and a button to delete it*/}
+      <h1>My Reimbursements</h1>
+      <div>
+        <button onClick={() => getAllReimbursement()}>Refresh</button>
+      </div>
       <table className="table">
-        <thead>
+        <thead className="table-head">
           <tr>
             <th>FormId</th>
             <th>Amount</th>
@@ -70,32 +74,20 @@ export const Collection: React.FC = () => {
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="table-body">
           {reimbursement.map((reim) => {
             return (
-              <tr key={reim.formId}>
+              <tr className="table-row" key={reim.formId}>
                 <td>{reim.formId}</td>
                 <td>{reim.amount}</td>
                 <td>{reim.description}</td>
                 <td>{reim.status}</td>
-                <td><button onClick={() => deleteReimbursement(reim.formId)}>Delete</button></td>
+                <td><button className="delete-button" onClick={() => deleteReimbursement(reim.formId)}>Delete</button></td>
               </tr>
             );
           })}
         </tbody>
         </table>       
-      {reimbursement.map((reim, index) => (
-        <div>
-          {/* <Reimbursement {...reim}></Reimbursement> */}
-          <button
-            className="reim-button"
-            onClick={() => deleteReimbursement(reim.formId)}
-          >
-            Delete
-          </button>
-        </div>
-      ))} 
-
       {/* If you need to render multiple things in map(), they need to be in a <div> */}
     </div>
   );

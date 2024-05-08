@@ -11,17 +11,17 @@ public class OutgoingReimbursementDTO {
     private int formId;
     private String description;
     private int amount;
-    private int userId;
+    private String username;
     private String status;
 
     public OutgoingReimbursementDTO() {
     }
 
-    public OutgoingReimbursementDTO(int formId, String description, int amount, int userId, String status) {
+    public OutgoingReimbursementDTO(int formId, String description, int amount, String username, String status) {
         this.formId= formId;
         this.description= description;
         this.amount=amount;
-        this.userId= userId;
+        this.username= username;
         this.status=status;
 
     }
@@ -53,12 +53,12 @@ public class OutgoingReimbursementDTO {
         this.amount = amount;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
 
@@ -76,7 +76,7 @@ public class OutgoingReimbursementDTO {
                 "formId=" + formId +
                 ", description='" + description + '\'' +
                 ", amount=" + amount +
-                ", userId=" + userId +
+                ", username=" + username +
                 ", status='" + status + '\'' +
                 '}';
     }

@@ -12,7 +12,8 @@ public class IncomingReimbursementDTO {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int userId;
-    private static String description;
+    private String description;
+    private String status;
 
     @Column(nullable=false)
     private int amount;
@@ -21,10 +22,17 @@ public class IncomingReimbursementDTO {
     public IncomingReimbursementDTO() {
     }
 
-    public IncomingReimbursementDTO(int amount, String description, int userId) {
+    public IncomingReimbursementDTO(int amount, String description, String status, int userId) {
         this.amount= amount;
         this.description = description;
+        this.status = status;
         this.userId = userId;
+
+    }
+    public IncomingReimbursementDTO(String description, int amount, String status) {
+        this.amount= amount;
+        this.description = description;
+        this.status = status;
 
     }
 
@@ -39,11 +47,16 @@ public class IncomingReimbursementDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-    public static String getDescription() {
+    public String getDescription() {
         return description;
     }
 
-
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public int getAmount() {
         return amount;
