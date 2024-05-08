@@ -2,6 +2,7 @@ package com.revature.REIMBURSEMENT.PROJECT.controllers;
 
 
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.IncomingReimbursementDTO;
+import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.OutgoingReimbursementDTO;
 import com.revature.REIMBURSEMENT.PROJECT.models.DTOs.Reimbursement;
 import com.revature.REIMBURSEMENT.PROJECT.services.ReimbursementService;
 import com.revature.REIMBURSEMENT.PROJECT.services.UserService;
@@ -113,13 +114,15 @@ public class ReimbursementController {
     }
 
 
-    @GetMapping("/allreims")
-    public ResponseEntity<?> getAllReimbursementsByManager(HttpSession session){
+    @GetMapping("/allreims/{filter}")
+    public ResponseEntity<?> getAllReimbursementsByManager(HttpSession session, @PathVariable String filter){
         if(session.getAttribute("userId") == null){
-            return ResponseEntity.status(401).body("You must login to see your reimbursement!");
+            return ResponseEntity.status(401).body("You must login to see the reimbursements!");
+        } else if(!"manager".equalsIgnoreCase((String)session.getAttribute("role"))){
+            return ResponseEntity.status(401).body("Only managers are allowed to see all reimbursements");
         }
-       int userId = (int)session.getAttribute("userId");
-        List<Reimbursement> reimbs = reimbursementService.getAllReimbursementByManager("pending");
+       //int userId = (int)session.getAttribute("userId");
+        List<OutgoingReimbursementDTO> reimbs = reimbursementService.getAllReimbursementByManager(filter);
 
         return ResponseEntity.ok(reimbs);
     }
@@ -149,7 +152,7 @@ public class ReimbursementController {
 //                return ResponseEntity.status(401).body("Only managers are allowed to see resolve a reimbursement");
 //            }
         try{
-            Reimbursement resolved = reimbursementService.updateStatus(formId, reimbursement);
+            Reimbursement resolved = reimbursementService.updateStatus(formId, reimbursement.getStatus());
             return ResponseEntity.ok(resolved);
         }catch(RuntimeException e){
             return ResponseEntity.status(404).body(e.getMessage());

@@ -37,9 +37,10 @@ public Reimbursement(int formId, String description, int amount, String status, 
         this.user= user;
 }
 
-    public Reimbursement(String description, int amount) {
-this.description = description;
+    public Reimbursement(String description, int amount, String status) {
+        this.description = description;
         this.amount = amount;
+        this.status = status;
     }
 
     public int getFormId() {

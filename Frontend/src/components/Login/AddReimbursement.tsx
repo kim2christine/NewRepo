@@ -10,7 +10,7 @@ export const AddReimbursement: React.FC = () => {
   const [reimbursement, setReimbursement] = useState<ReimbursementInterface>({
     description: "",
     amount: 0,
-    status: "",
+    status: "Pending",
   });
 
   const [message, setMessage] = useState("");
@@ -45,7 +45,7 @@ export const AddReimbursement: React.FC = () => {
         withCredentials: true,
       })
       .then((response) => {
-        setMessage("Request was successful");
+        setMessage(`Request: ${reimbursement.description} was successful`);
       })
       .catch((error) => {
         setMessage("Request was unsuccessful");

@@ -3,6 +3,7 @@ export interface ReimbursementInterface {
   description: string;
   amount: number;
   userId?: number;
+  username?: string;
   status?: string;
 }
 
