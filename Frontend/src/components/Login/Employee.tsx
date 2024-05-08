@@ -22,7 +22,7 @@ export function Employee() {
           <button onClick={() => navigate("/reimbursement/add")}>
             Create a New Reimbursement
           </button>
-          <button onClick={() => navigate("/catch")}>
+          <button onClick={() => navigate("/allreims")}>
             View Your Reimbursements
           </button>
           <button onClick={handleLogout}>Logout</button>

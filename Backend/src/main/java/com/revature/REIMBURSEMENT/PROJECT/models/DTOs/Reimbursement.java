@@ -74,8 +74,8 @@ this.description = description;
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return user.getUserId();
     }
 
     public void setUser(User user) {
