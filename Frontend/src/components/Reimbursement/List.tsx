@@ -2,12 +2,12 @@ import axios from "axios";
 import { ReimbursementInterface } from "../Interfaces/ReimbursementInterface";
 import { Reimbursement } from "./Reimbursement";
 import { useEffect, useState } from "react";
-import { navigate } from "react-router";
+import { useNavigate } from "react-router";
 
 const ReimbursementList: React.FC = () => {
   const [listItems, setListItems] = useState<ReimbursementInterface[]>([]);
   const [filter, setFilter] = useState<string>();
-
+  const navigate = useNavigate();
   const onFilterChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFilter(event.target.value);
   };

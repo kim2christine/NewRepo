@@ -59,7 +59,7 @@ public class UserController {
         //Storing the user info in our session
         session.setAttribute("userId", u.getUserId());
         session.setAttribute("username", u.getUsername()); //probably won't use this
-
+           session.setAttribute("role", u.getRole());
         //Hypothetical role save to session
         //session.setAttribute("role", u.getRole());
 
@@ -68,6 +68,19 @@ public class UserController {
 
     }
 
+    @PostMapping("/verify")
+    public ResponseEntity<?> verifyUser(HttpSession session){
+
+        //If the user is not logged in, send back a 401
+        if(session.getAttribute("userId") == null){
+            return ResponseEntity.status(401).body("You must be logged in to verify your identity!");
+        }
+
+        //If the user is logged in, send back a 200
+        return ResponseEntity.ok(new OutgoingUserDTO((int) session.getAttribute("userId"),
+                (String) session.getAttribute("username"), (String) session.getAttribute("role")));
+
+    }
 
     @GetMapping("/allEmployees")
     public ResponseEntity<?> getAllEmployees(HttpSession session){

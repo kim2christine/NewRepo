@@ -41,15 +41,17 @@ public class ReimbursementService {
 
 
     public List<OutgoingReimbursementDTO> getAllReimbursement(int userId) {
-        User u = userDAO.findById(userId).get();
-
-        List<Reimbursement> allReimbursement = reimbursementDAO.findAll();
+        Optional<User> optUser = userDAO.findById(userId);
+        if (optUser.isEmpty()) {
+            throw new NoSuchElementException("User not found!");
+        }
+        User u = optUser.get();
+        List<Reimbursement> allReimbursement;
 
         if(u.getRole().equalsIgnoreCase("Employee")){
-            allReimbursement = allReimbursement.stream()
-                    .filter(reim -> reim.getUser().getUserId() == userId)
-                    .collect(Collectors.toList());
-                  
+            allReimbursement = reimbursementDAO.findByUserUserId(userId);
+        } else {
+            allReimbursement = reimbursementDAO.findAll();
         }
 
 
@@ -60,7 +62,7 @@ public class ReimbursementService {
                     p.getFormId(),
                     p.getDescription(),
                     p.getAmount(),
-                    p.getUser().getUserId(),
+                    p.getUserId(),
                     p.getStatus()
             );
 
@@ -83,7 +85,7 @@ public class ReimbursementService {
                     p.getFormId(),
                     p.getDescription(),
                     p.getAmount(),
-                    p.getUser().getUserId(),
+                    p.getUserId(),
                     p.getStatus()
             );
 
@@ -110,9 +112,10 @@ public class ReimbursementService {
             throw new NoSuchElementException("User not found! Can't delete");
         }
         User user = optionalUser.get();
-        if (reimbursement.getUser().getUserId() != userId) {
+        if (reimbursement.getUserId() != userId) {
             if (user.getRole().equalsIgnoreCase("Manager")) {
-                reimbursement.getUser().getReimbursement().remove(reimbursement);
+                user.getReimbursement().remove(reimbursement);
+               //reimbursement.getUser().getReimbursement().remove(reimbursement);
                 reimbursementDAO.deleteById(formId);
                 return reimbursement.getFormId() + " was resolved!";
             }
@@ -120,7 +123,7 @@ public class ReimbursementService {
         }
 
 
-        reimbursement.getUser().getReimbursement().remove(reimbursement);
+        user.getReimbursement().remove(reimbursement);
         reimbursementDAO.deleteById(formId);
 
         return reimbursement.getFormId() + " was resolved!";

@@ -51,7 +51,7 @@ public class ReimbursementController {
        Reimbursement p = reimbursementService.addReimbursement(reimbursementDTO);
 
         return ResponseEntity.status(201).body(
-                p.getUser().getUsername() + " submitted " + p.getUser().getUserId());
+                session.getAttribute("username") + " submitted " + p.getUserId());
 
     }
 
@@ -67,7 +67,11 @@ public class ReimbursementController {
         int userId = (int) session.getAttribute("userId");
 
         //Why return in many line when one line do trick?
-        return ResponseEntity.ok(reimbursementService.getAllReimbursement(userId));
+        try {
+            return ResponseEntity.ok(reimbursementService.getAllReimbursement(userId));
+        } catch (Exception e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
 
     }
 
