@@ -156,5 +156,7 @@ public class ReimbursementService {
     }
 
 
+    //add a function in the service layer to match getMagic in the controller layer
+
 
 }

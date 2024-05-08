@@ -16,10 +16,8 @@ export function Manager() {
       <h1>Manager Homepage</h1>
       <p>Welcome to the Manager Homepage!</p>
       <div>
-        <button onClick={() => navigate("/FindAll")}>
-          View All Employees
-        </button>
-        <button onClick={() => navigate("/reimbursement")}>
+        <button onClick={() => navigate("/FindAll")}>View All Employees</button>
+        <button onClick={() => navigate("/allreims")}>
           View All Reimbursements
         </button>
         <button onClick={handleLogout}>Logout</button>

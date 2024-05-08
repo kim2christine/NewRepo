@@ -109,16 +109,16 @@ public class ReimbursementController {
     }
 
 
-  //  @GetMapping
-   // public ResponseEntity<?> getMagic(@RequestParam(required = false) String filter){
-//        if(session.getAttribute("userId") == null){
-//            return ResponseEntity.status(401).body("You must login to see your reimbursement!");
-//        }
-    //   int userId = (int)session.getAttribute("userId");
- //       List<Reimbursement> reimbs = reimbursementService.getAllReimbursement(1,filter);
+    @GetMapping("/allreims")
+    public ResponseEntity<?> getAllReimbursementsByManager(HttpSession session){
+        if(session.getAttribute("userId") == null){
+            return ResponseEntity.status(401).body("You must login to see your reimbursement!");
+        }
+       int userId = (int)session.getAttribute("userId");
+        List<Reimbursement> reimbs = reimbursementService.getAllReimbursementByManager("pending");
 
- //       return ResponseEntity.ok(reimbs);
-//    }
+        return ResponseEntity.ok(reimbs);
+    }
 
 
 
